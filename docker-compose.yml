@@ -1,0 +1,44 @@
+version: "2"
+services:
+    react_app:
+        image: mhart/alpine-node:16.4.2
+        container_name: react_app
+        restart: always
+        ports:
+            - "3000:3000"
+        working_dir: /react_app/src
+        volumes:
+            - ./react_app:/react_app/src
+        entrypoint: ["npm", "start"]
+        links:
+            - express_js
+        networks:
+            - webappnetwork
+    express_js:
+        image: express_js
+        container_name: express_js
+        restart: always
+        ports:
+            - "9000:9000"
+        volumes:
+            - ./express_js:/express_js
+            - /express_js/node_modules
+        depends_on:
+            - mongodb
+        networks:
+            - webappnetwork
+    mongodb:
+        image: mongo
+        restart: always
+        container_name: mongodb
+        volumes:
+            - ./data-node:/data/db
+        ports:
+            - 27017:27017
+        command: mongod --noauth --quiet
+        networks:
+            - webappnetwork
+
+networks:
+    webappnetwork:
+        driver: bridge
