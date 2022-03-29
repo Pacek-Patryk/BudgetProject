@@ -18,6 +18,7 @@ import {
   MDBRow,
   MDBListGroup,
   MDBListGroupItem,
+  MDBIcon,
 } from 'mdb-react-ui-kit'
 
 class accountCard extends React.Component {
@@ -28,7 +29,9 @@ class accountCard extends React.Component {
       isHovered: true,
       checked: true,
       amountChange: '0',
+      accountAmount: this.props.account.amount,
       transactions: [],
+      showTrash: false,
     }
   }
 
@@ -49,7 +52,10 @@ class accountCard extends React.Component {
 
   handleTransactionAdd = (event) => {
     this.setState({ transactions: [...this.state.transactions, event] })
-    console.log(this.state.transactions)
+    let change
+    if (event.minus) change = this.state.accountAmount - event.amount
+    else change = this.state.accountAmount + event.amount
+    this.setState({ accountAmount: change })
   }
 
   handleTransactionPost = (event) => {
@@ -125,7 +131,7 @@ class accountCard extends React.Component {
           <MDBCardBody>
             <MDBTabsContent>
               <MDBTabsPane show={this.state.basicActive === 'Main'}>
-                <MDBCardText>Amount: {this.props.account.amount}</MDBCardText>
+                <MDBCardText>Amount: {this.state.accountAmount}</MDBCardText>
                 <MDBBtn
                   size="lg"
                   onClick={() => {
@@ -190,13 +196,20 @@ class accountCard extends React.Component {
                     <MDBRow className="text-black-50">
                       <MDBCol size="1"></MDBCol>
                       <MDBCol size="4">Amount</MDBCol>
-                      <MDBCol size="7">Date</MDBCol>
+                      <MDBCol size="6">Date</MDBCol>
                     </MDBRow>
                   </MDBListGroupItem>
                   {this.state.transactions.map((transaction) => {
                     return (
                       <MDBListGroupItem key={transaction._id}>
-                        <MDBRow>
+                        <MDBRow
+                          onMouseEnter={(e) => {
+                            this.setState({ showTrash: true })
+                          }}
+                          onMouseLeave={(e) => {
+                            this.setState({ showTrash: false })
+                          }}
+                        >
                           <MDBCol
                             size="1"
                             className={
@@ -206,7 +219,15 @@ class accountCard extends React.Component {
                             {transaction.minus ? '–' : '+'}
                           </MDBCol>
                           <MDBCol size="4">{transaction.amount}</MDBCol>
-                          <MDBCol size="7">{transaction.date}</MDBCol>
+                          <MDBCol size="6">{transaction.date}</MDBCol>
+                          <MDBCol size="1">
+                            <MDBIcon
+                              className={this.state.showTrash ? '' : 'd-none'}
+                              far
+                              icon="trash-alt"
+                              size="sm"
+                            />
+                          </MDBCol>
                         </MDBRow>
                       </MDBListGroupItem>
                     )
