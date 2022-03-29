@@ -6,7 +6,7 @@ const AccountSchema = new mongoose.Schema({
         required: true,
     },
     amount: {
-        type: String,
+        type: Number,
         default: 0,
     },
     transaction: [
@@ -21,7 +21,7 @@ const AccountSchema = new mongoose.Schema({
                 type: Number,
             },
             date: {
-                type: Date,
+                type: String,
             },
         },
     ],
