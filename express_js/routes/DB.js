@@ -5,10 +5,10 @@ const AccountActions = require('../actions/account');
 
 mongoose.connect('mongodb://mongodb:27017/budgetProject');
 
-//get all accounts
-router.get('/accounts', AccountActions.getAccounts);
 //create account
 router.post('/account', AccountActions.postAccount);
+//get all accounts
+router.get('/accounts', AccountActions.getAccounts);
 //delete account
 router.delete('/account/:id', AccountActions.deleteAccount);
 //create new transaction for account
