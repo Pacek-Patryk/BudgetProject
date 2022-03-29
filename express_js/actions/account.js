@@ -38,11 +38,17 @@ class Account {
     }
 
     async postTransaction(req, res) {
-        req = req.body;
-        transaction = {
-            category: req.category,
-            amount: req.amount,
-            date: new Date(),
+        // category: req.category,
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+        today = mm + '/' + dd + '/' + yyyy;
+
+        const transaction = {
+            amount: req.body.amount,
+            minus: req.body.minus,
+            date: today,
         };
         try {
             const addTransaction = await account.findOne({
@@ -52,7 +58,18 @@ class Account {
             addTransaction.transaction.push(transaction);
 
             await addTransaction.save();
-            return res.status(200).json(addTransaction);
+            return res.status(200).json(transaction);
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({ message: error });
+        }
+    }
+
+    async getTransactions(req, res) {
+        let received;
+        try {
+            received = await account.findById(req.params.id);
+            return res.status(200).json(received.transaction);
         } catch (error) {
             console.log(error);
             return res.status(500).json({ message: error });

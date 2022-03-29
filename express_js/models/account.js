@@ -14,6 +14,9 @@ const AccountSchema = new mongoose.Schema({
             category: {
                 type: String,
             },
+            minus: {
+                type: Boolean,
+            },
             amount: {
                 type: Number,
             },

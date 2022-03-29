@@ -13,6 +13,8 @@ router.post('/account', AccountActions.postAccount);
 router.delete('/account/:id', AccountActions.deleteAccount);
 //create new transaction for account
 router.post('/account/:id/transaction', AccountActions.postTransaction);
+//get all transactions for account
+router.get('/account/:id/transactions', AccountActions.getTransactions);
 
 //connect with db
 router.get('/', function (req, res, next) {

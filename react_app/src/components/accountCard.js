@@ -16,6 +16,8 @@ import {
   MDBInput,
   MDBInputGroup,
   MDBRow,
+  MDBListGroup,
+  MDBListGroupItem,
 } from 'mdb-react-ui-kit'
 
 class accountCard extends React.Component {
@@ -30,8 +32,8 @@ class accountCard extends React.Component {
     }
   }
 
-  handleBasicClick = (event) => {
-    if (event === this.state.basicActive) {
+  handleBasicClick = (value) => {
+    if (value === this.state.basicActive) {
       return
     }
     this.setState({ basicActive: value })
@@ -47,11 +49,12 @@ class accountCard extends React.Component {
 
   handleTransactionAdd = (event) => {
     this.setState({ transactions: [...this.state.transactions, event] })
+    console.log(this.state.transactions)
   }
 
   handleTransactionPost = (event) => {
     const data = { amount: this.state.amountChange, minus: this.state.checked }
-    const _id = this.props.key
+    const _id = this.props.account._id
     this.postTransaction(data, _id)
     event.preventDefault()
   }
@@ -78,6 +81,20 @@ class accountCard extends React.Component {
       .then((res) => this.props.handleAccountDelete(res))
       .then(() => console.log('Account deleted'))
       .catch((err) => err)
+  }
+
+  getTransactions(_id) {
+    fetch('http://localhost:9000/db/account/' + _id + '/transactions')
+      .then((res) => res.json())
+      .then((res) =>
+        this.setState({ transactions: [...this.state.transactions, ...res] }),
+      )
+      .then(() => console.log('Transactions received'))
+      .catch((err) => err)
+  }
+
+  componentDidMount() {
+    this.getTransactions(this.props.account._id)
   }
 
   render() {
@@ -163,9 +180,39 @@ class accountCard extends React.Component {
                   </MDBBtn>
                 </form>
               </MDBTabsPane>
-              <MDBTabsPane
-                show={this.state.basicActive === 'History'}
-              ></MDBTabsPane>
+              <MDBTabsPane show={this.state.basicActive === 'History'}>
+                <MDBListGroup
+                  flush
+                  style={{ minWidth: '22rem' }}
+                  className="text-center"
+                >
+                  <MDBListGroupItem>
+                    <MDBRow className="text-black-50">
+                      <MDBCol size="1"></MDBCol>
+                      <MDBCol size="4">Amount</MDBCol>
+                      <MDBCol size="7">Date</MDBCol>
+                    </MDBRow>
+                  </MDBListGroupItem>
+                  {this.state.transactions.map((transaction) => {
+                    return (
+                      <MDBListGroupItem key={transaction._id}>
+                        <MDBRow>
+                          <MDBCol
+                            size="1"
+                            className={
+                              transaction.minus ? 'text-danger' : 'text-success'
+                            }
+                          >
+                            {transaction.minus ? '–' : '+'}
+                          </MDBCol>
+                          <MDBCol size="4">{transaction.amount}</MDBCol>
+                          <MDBCol size="7">{transaction.date}</MDBCol>
+                        </MDBRow>
+                      </MDBListGroupItem>
+                    )
+                  })}
+                </MDBListGroup>
+              </MDBTabsPane>
             </MDBTabsContent>
           </MDBCardBody>
         </MDBCard>
