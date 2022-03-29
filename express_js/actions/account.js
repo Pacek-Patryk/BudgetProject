@@ -29,7 +29,7 @@ class Account {
 
     async deleteAccount(req, res) {
         try {
-            await account.deleteOne({ _id: req.params.id });
+            await account.deleteById(req.params.id);
             return res.status(200).json(req.params.id);
         } catch (error) {
             console.log(error);
@@ -50,11 +50,9 @@ class Account {
             minus: req.body.minus,
             date: today,
         };
-        try {
-            const addTransaction = await account.findOne({
-                _id: req.params.id,
-            });
 
+        try {
+            const addTransaction = await account.findById(req.params.id);
             addTransaction.transaction.push(transaction);
 
             await addTransaction.save();
