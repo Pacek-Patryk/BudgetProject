@@ -17,7 +17,7 @@ class addAccount extends React.Component {
     this.setState({ value: event.target.value })
   }
 
-  handleSubmit = (event) => {
+  handleAccountPost = (event) => {
     const data = { name: this.state.value }
     this.postAccount(data)
     event.preventDefault()
@@ -45,7 +45,7 @@ class addAccount extends React.Component {
             <MDBCardTitle>Add Account</MDBCardTitle>
           </MDBCardHeader>
           <MDBCardBody>
-            <form onSubmit={this.handleSubmit}>
+            <form onSubmit={this.handleAccountPost}>
               <MDBInput
                 label="Account Name"
                 value={this.state.value}

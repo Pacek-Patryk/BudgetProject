@@ -26,11 +26,12 @@ class accountCard extends React.Component {
       isHovered: true,
       checked: true,
       amountChange: '0',
+      transactions: [],
     }
   }
 
-  handleBasicClick = (value) => {
-    if (value === this.state.basicActive) {
+  handleBasicClick = (event) => {
+    if (event === this.state.basicActive) {
       return
     }
     this.setState({ basicActive: value })
@@ -44,6 +45,31 @@ class accountCard extends React.Component {
     this.setState({ amountChange: event.target.value })
   }
 
+  handleTransactionAdd = (event) => {
+    this.setState({ transactions: [...this.state.transactions, event] })
+  }
+
+  handleTransactionPost = (event) => {
+    const data = { amount: this.state.amountChange, minus: this.state.checked }
+    const _id = this.props.key
+    this.postTransaction(data, _id)
+    event.preventDefault()
+  }
+
+  postTransaction(data, _id) {
+    fetch('http://localhost:9000/db/account/' + _id + '/transaction', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((res) => this.handleTransactionAdd(res))
+      .then(() => console.log('Transaction added'))
+      .catch((err) => err)
+  }
+
   deleteAccount(_id) {
     fetch('http://localhost:9000/db/account/' + _id, {
       method: 'DELETE',
@@ -53,8 +79,6 @@ class accountCard extends React.Component {
       .then(() => console.log('Account deleted'))
       .catch((err) => err)
   }
-
-  addTransaction() {}
 
   render() {
     return (
@@ -88,7 +112,6 @@ class accountCard extends React.Component {
                 <MDBBtn
                   size="lg"
                   onClick={() => {
-                    this.addTransaction()
                     this.handleBasicClick('AddNew')
                   }}
                 >
@@ -108,7 +131,7 @@ class accountCard extends React.Component {
                 </div>
               </MDBTabsPane>
               <MDBTabsPane show={this.state.basicActive === 'AddNew'}>
-                <form>
+                <form onSubmit={this.handleTransactionPost}>
                   <MDBRow className="ms-2">
                     <MDBSwitch
                       checked={this.state.checked}
