@@ -1,5 +1,5 @@
 FROM node:16-alpine
-WORKDIR /express_js
+WORKDIR /react_app
 COPY package*.json ./
 COPY ./ ./
 RUN npm i

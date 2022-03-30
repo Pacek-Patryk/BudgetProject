@@ -1,21 +1,21 @@
 version: "2"
 services:
     react_app:
-        image: mhart/alpine-node:16.4.2
-        container_name: react_app
+        build:
+            dockerfile: Dockerfile
+            context: "./react_app"
         restart: always
         ports:
             - "3000:3000"
-        working_dir: /react_app/src
         volumes:
-            - ./react_app:/react_app/src
-        entrypoint: ["npm", "start"]
-        links:
-            - express_js
+            - /react_app/node_modules
+            - ./react_app:/react_app
         networks:
             - webappnetwork
     express_js:
-        build: ./express_js
+        build:
+            dockerfile: Dockerfile
+            context: "./express_js"
         restart: always
         ports:
             - "9000:9000"
@@ -34,7 +34,7 @@ services:
             - ./data-node:/data/db
         ports:
             - 27017:27017
-        command: mongod --noauth --quiet
+        command: mongod --noauth
         networks:
             - webappnetwork
 
