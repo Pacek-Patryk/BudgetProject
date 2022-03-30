@@ -15,16 +15,13 @@ services:
         networks:
             - webappnetwork
     express_js:
-        image: mhart/alpine-node:16.4.2
-        container_name: express_js
+        build: ./express_js
         restart: always
         ports:
             - "9000:9000"
-        working_dir: /express_js
         volumes:
             - ./express_js:/express_js
             - /express_js/node_modules
-        entrypoint: ["npm", "start"]
         depends_on:
             - mongodb
         networks:

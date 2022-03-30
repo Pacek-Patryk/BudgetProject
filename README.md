@@ -23,6 +23,7 @@ This is probably going to be my Bachelor's thesis.
 **Server:** Node, Express, MongoDB
 
 
+
 ## Run Locally
 
 Clone the project
@@ -35,12 +36,6 @@ Go to the project directory
 
 ```bash
   cd BudgetProject
-```
-
-Build your Docker Container
-
-```bash
-  docker-compose build
 ```
 
 Start everything with a single spell
