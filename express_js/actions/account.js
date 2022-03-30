@@ -1,4 +1,5 @@
 const account = require('../models/account');
+const mongoose = require('mongoose');
 
 class Account {
     async getAccounts(req, res) {
@@ -72,6 +73,31 @@ class Account {
         try {
             received = await account.findById(req.params.id);
             return res.status(200).json(received.transaction);
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({ message: error });
+        }
+    }
+
+    async deleteTransaction(req, res) {
+        let received;
+
+        try {
+            received = await account.findById(req.params.id);
+
+            const i = received.transaction.findIndex(
+                (element) => element._id == req.body._id
+            );
+
+            if (received.transaction[i].minus)
+                received.amount += received.transaction[i].amount;
+            else received.amount -= received.transaction[i].amount;
+
+            received.transaction.splice(i, 1);
+            await received.save();
+            return res
+                .status(200)
+                .json({ accountAmount: received.amount, index: i });
         } catch (error) {
             console.log(error);
             return res.status(500).json({ message: error });

@@ -15,6 +15,8 @@ router.delete('/account/:id', AccountActions.deleteAccount);
 router.post('/account/:id/transaction', AccountActions.postTransaction);
 //get all transactions for account
 router.get('/account/:id/transactions', AccountActions.getTransactions);
+//delete transaction
+router.delete('/account/:id/transaction', AccountActions.deleteTransaction);
 
 //connect with db
 router.get('/', function (req, res, next) {

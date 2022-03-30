@@ -17,6 +17,23 @@ class listTransactions extends React.Component {
     }
   }
 
+  handleTransactionDelete(_id) {
+    const data = { _id: _id }
+    fetch(
+      'http://localhost:9000/db/account/' + this.props._id + '/transaction',
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      },
+    )
+      .then((res) => res.json())
+      .then((res) => this.props.handleTransactionDelete(res))
+      .catch((err) => err)
+  }
+
   render() {
     return (
       <MDBTabsPane show={this.props.basicActive === 'History'}>
@@ -59,6 +76,9 @@ class listTransactions extends React.Component {
                       far
                       icon="trash-alt"
                       size="sm"
+                      onClick={() =>
+                        this.handleTransactionDelete(transaction._id)
+                      }
                     />
                   </MDBCol>
                 </MDBRow>

@@ -32,6 +32,13 @@ class accountCard extends React.Component {
     this.setState({ basicActive: value })
   }
 
+  handleTransactionDelete = (event) => {
+    this.setState({
+      accountAmount: event.accountAmount,
+      transactions: this.state.transactions.filter((_, i) => i != event.index),
+    })
+  }
+
   handleTransactionAdd = (event) => {
     this.setState({
       transactions: [
@@ -92,6 +99,7 @@ class accountCard extends React.Component {
                 basicActive={this.state.basicActive}
               />
               <ListTransactions
+                handleTransactionDelete={this.handleTransactionDelete}
                 transactions={this.state.transactions}
                 _id={this.props.account._id}
                 basicActive={this.state.basicActive}
