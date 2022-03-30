@@ -1,4 +1,4 @@
 Budget project
 **work in progress**
 
-Time spent: ~16 hours
+Time spent: ~17 hours
