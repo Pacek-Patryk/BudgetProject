@@ -12,7 +12,7 @@ This is probably going to be my Bachelor's thesis.
 
 
 ## 🛠 Work in progress...
-`Time spent: ~17 hours`
+`Time spent: ~18 hours`
 
 
 
@@ -41,6 +41,6 @@ Go to the project directory
 Start everything with a single spell
 
 ```bash
-  docker-compose up
+  docker-compose up --build
 ```
 
