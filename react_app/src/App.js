@@ -13,10 +13,12 @@ class App extends Component {
     this.setState({
       accounts: this.state.accounts.filter((item) => item._id !== event),
     })
+    console.log('Account deleted')
   }
 
   handleAccountAdd = (event) => {
     this.setState({ accounts: [...this.state.accounts, event] })
+    console.log('Account added')
   }
 
   getAccounts() {
@@ -35,6 +37,7 @@ class App extends Component {
       .then((res) => console.log(res))
       .catch((err) => err)
   }
+
   componentDidMount() {
     this.callDB()
     this.getAccounts()

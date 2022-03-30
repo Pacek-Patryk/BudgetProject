@@ -11,7 +11,10 @@ import {
 } from 'mdb-react-ui-kit'
 
 class addAccount extends React.Component {
-  state = { value: 'smth' }
+  constructor(props) {
+    super(props)
+    this.state = { value: 'smth' }
+  }
 
   handleChange = (event) => {
     this.setState({ value: event.target.value })
@@ -19,11 +22,6 @@ class addAccount extends React.Component {
 
   handleAccountPost = (event) => {
     const data = { name: this.state.value }
-    this.postAccount(data)
-    event.preventDefault()
-  }
-
-  postAccount(data) {
     fetch('http://localhost:9000/db/account', {
       method: 'POST',
       headers: {
@@ -33,8 +31,8 @@ class addAccount extends React.Component {
     })
       .then((res) => res.json())
       .then((res) => this.props.handleAccountAdd(res))
-      .then(() => console.log('Account added'))
       .catch((err) => err)
+    event.preventDefault()
   }
 
   render() {
