@@ -44,22 +44,23 @@ class Account {
         var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
         var yyyy = today.getFullYear();
         today = mm + '/' + dd + '/' + yyyy;
-
+        var amount = Number(req.body.amount);
+        var minus = req.body.minus;
         const transaction = {
-            amount: req.body.amount,
-            minus: req.body.minus,
+            amount: amount,
+            minus: minus,
             date: today,
         };
 
         try {
             const addTransaction = await account.findById(req.params.id);
-            if (req.body.minus) addTransaction.amount -= req.body.amount;
-            else addTransaction.amount += req.body.amount;
+            if (req.body.minus) addTransaction.amount -= amount;
+            else addTransaction.amount += amount;
 
             addTransaction.transaction.push(transaction);
 
             await addTransaction.save();
-            return res.status(200).json(transaction);
+            return res.status(200).json(addTransaction);
         } catch (error) {
             console.log(error);
             return res.status(500).json({ message: error });
