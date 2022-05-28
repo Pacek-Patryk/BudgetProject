@@ -1,13 +1,17 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import ReactDOM from "react-dom"
+import { BrowserRouter } from 'react-router-dom';
+import { createRoot } from 'react-dom/client';
 import './index.css'
 import App from './App'
 import 'mdb-react-ui-kit/dist/css/mdb.min.css'
 import '@fortawesome/fontawesome-free/css/all.min.css'
 
-ReactDOM.render(
-  <React.StrictMode>
+const container = document.getElementById('root');
+const root = createRoot(container);
+
+root.render(
+  <BrowserRouter>
     <App />
-  </React.StrictMode>,
-  document.getElementById('root'),
-)
+  </BrowserRouter>
+);

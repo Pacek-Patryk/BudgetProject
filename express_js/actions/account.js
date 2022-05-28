@@ -1,5 +1,4 @@
 const account = require('../models/account');
-const mongoose = require('mongoose');
 
 class Account {
     async getAccounts(req, res) {

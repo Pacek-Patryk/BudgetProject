@@ -13,7 +13,7 @@ import {
 class addAccount extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { value: 'smth' }
+    this.state = { value: '' }
   }
 
   handleChange = (event) => {
@@ -30,8 +30,12 @@ class addAccount extends React.Component {
       body: JSON.stringify(data),
     })
       .then((res) => res.json())
-      .then((res) => this.props.handleAccountAdd(res))
-      .catch((err) => err)
+      .then((res) => {
+        this.setState({value: ''})
+        if(res.message) return console.log(res.message.message)
+        this.props.handleAccountAdd(res)
+      })
+      .catch((err) => console.log(err))
     event.preventDefault()
   }
 

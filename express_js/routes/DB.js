@@ -2,8 +2,13 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const AccountActions = require('../actions/account');
+const authUser = require('../actions/authUser');
 
 mongoose.connect('mongodb://mongodb:27017/budgetProject');
+
+router.post('/checkuser', authUser.checkUser);
+router.post('/register', authUser.register);
+router.post('/login', authUser.login);
 
 //create account
 router.post('/account', AccountActions.postAccount);
