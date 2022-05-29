@@ -1,18 +1,13 @@
 
 # Budget Project
 
-This is probably going to be my Bachelor's thesis.
-
-*but* it can also look g00d as a portfolio 🤓
-
-
 
 👨🏽‍💻 I'm learning new stuff through the practice - and this is the result 👨🏽‍💻
 
 
 
 ## 🛠 Work in progress...
-`Time spent: ~18 hours`
+`Time spent: ~31 hours`
 
 
 
